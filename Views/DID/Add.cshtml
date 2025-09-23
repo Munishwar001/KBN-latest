@@ -1,0 +1,177 @@
+﻿@model List<KBN.Models.DIDModel.RangeViewModel>
+@{
+    ViewData["Title"] = "Add";
+}
+
+<div class="Addcontainer">
+    <div class="card shadow-sm p-4">
+
+        <!-- Buttons -->
+        <button class="btn btn-success mb-3 addRangeBtn" type="button" data-bs-toggle="collapse" data-bs-target="#rangeSection"> <i class="fa-solid fa-plus"></i> Add Range</button>
+        
+        <!-- Range Form -->
+        <div id="rangeSection" class="collapse">
+            <div class="mb-3">
+                <label for="startRange" class="form-label">Start Range</label>
+                <input type="number" class="form-control" id="startRange"
+                       name="startRange" required placeholder="Enter your Start Range">
+            </div>
+            <div class="mb-3">
+                <label for="endRange" class="form-label">End Range</label>
+                <input type="number" class="form-control" id="endRange"
+                       name="endRange" required placeholder="Enter your End Range">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 generateRange">Generate</button>
+        </div>
+        <!-- Generated Textarea -->
+        <div class="mb-3">
+            <label for="w3review" class="form-label">Generated Numbers</label>
+            <textarea id="w3review" name="w3review" rows="8" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <!-- Table Output -->
+    <div>
+        <form id="addGeneratedForm">
+    <div class="card shadow-sm flex-fill ms-4 p-3 table-card">
+        <h5 class="fw-bold text-secondary">Output</h5>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered align-middle mt-3">
+                <thead class="table-primary">
+                    <tr>
+                        <th>DID</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Number Type</th>
+                    </tr>
+                </thead>
+                <tbody id="AddGeneratedDataTable">
+                        @* @if (Model != null && Model.Any())
+                        {
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                         <input type="hidden" name="[@i].DID" value="@Model[i].DID" />
+                                        @Model[i].DID
+                                    </td>
+                                    <td>
+                                        <input type="text" name="[@i].City" value="@Model[i].City" />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="[@i].Country" value="@Model[i].Country" />
+                                    </td>
+                                    <td>
+                                            <input type="hidden" name="[@i].NumberType" value=" @Model[i].NumberType" />
+                                        @Model[i].NumberType
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No data available</td>
+                            </tr>
+                        } *@
+                    </tbody>
+                    
+            </table>
+        </div>
+       </div>
+        <button class="btn btn-primary save-btn mt-3">
+            <i class="fa-solid fa-save"></i> Save
+        </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .Addcontainer {
+        display: flex;
+        gap: 25px; 
+    }
+
+        /* Buttons */
+        .Addcontainer .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 10px 16px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .Addcontainer .btn-primary {
+            background: #007bff;
+            border: none;
+        }
+
+            .Addcontainer .btn-primary:hover {
+                background: #0056b3;
+            }
+
+        .Addcontainer .btn-success {
+            background: #28a745;
+            border: none;
+        }
+
+            .Addcontainer .btn-success:hover {
+                background: #1e7e34;
+            }
+
+        /* Textarea */
+        .Addcontainer textarea {
+            resize: none;
+            border-radius: 8px;
+        }
+
+    /* Table card spacing */
+    .table-card {
+        margin-top: 15px;
+    }
+    /* Save Button */
+    .save-btn {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+        .save-btn:hover {
+            background: linear-gradient(135deg, #0056b3, #00408d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+
+        .save-btn:active {
+            transform: scale(0.97);
+        }
+
+    .Addcontainer {
+        display: flex;
+        gap: 25px;
+        align-items: flex-start;
+    }
+
+        /* Left side (Range form + textarea) ko fixed rakho */
+        .Addcontainer .card {
+            flex: 0 0 280px; /* 280px width fix */
+        }
+
+    /* Right side table ka apna space ho */
+    .table-card {
+        flex: 1; /* jitna bacha utna le lega */
+        min-width: 500px; /* kam se kam itna width ho */
+        max-height: 400px; /* scroll ke liye */
+        overflow-y: auto;
+    }
+
+    .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+</style>

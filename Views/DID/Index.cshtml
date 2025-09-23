@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal" id="addDataModel">
+    <i class="fa-solid fa-plus"></i>Add DID
+</button>
+<div class="DIDtable"> </div>
+
+
+@section Scripts {
+
+    <script>
+            function getData(){
+                 $.get("/DID/GetData",function(data){
+                      $(".DIDtable").html(data);
+                  })
+            }
+
+             $(document).ready(function(){
+                 getData();
+        });
+    </script>
+}
+

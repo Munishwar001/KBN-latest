@@ -2,6 +2,21 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/appsettings.json
-/obj/Debug/net8.0/KBN.AssemblyInfo.cs
+# Visual Studio
+.vs/
+
+# Build outputs
+bin/
+obj/
+
+# Compiled files
+*.exe
+*.dll
+*.pdb
+
+# Cache files
+*.cache
+
+# JSON files (except appsettings.json if you want to track it)
+*.json
+!appsettings.json

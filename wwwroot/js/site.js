@@ -180,7 +180,7 @@ $(document).ready(function () {
                 });
     });
 
-    $(document).on("submit", "#updateDIDData", function (e) {
+               $(document).on("submit", "#updateDIDData", function (e) {
         console.log("submit event triggered");
         e.preventDefault();
         const formData = $(this).serialize();

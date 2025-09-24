@@ -3,23 +3,147 @@
     ViewData["Title"] = "Index";
 }
 
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal" id="addDataModel">
-    <i class="fa-solid fa-plus"></i>Add DID
-</button>
+<!-- Add Button and Page Size -->
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal" id="addDataModel">
+        <i class="fa-solid fa-plus me-1"></i> Add DID
+    </button>
+
+    <div class="d-flex align-items-center">
+        <label for="pageSize" class="me-2 mb-0">PageSize:</label>
+        <select name="pageSize" id="pageSize" class="form-select form-select-sm" onchange="updatePageSize()">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+</div>
+
+<!-- Search Filters -->
+<div class="card p-3 mb-3 shadow-sm bg-light rounded">
+    <div class="row g-2 align-items-center">
+        <div class="col-md-3">
+            <input type="text" name="DID" value="" class="form-control searchDID" placeholder="Search DID">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="City" value="" class="form-control searchCity" placeholder="Search City">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="Country" value="" class="form-control searchCountry" placeholder="Search Country">
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button class="btn btn-primary w-50 search">Search</button>
+            <button class="btn btn-secondary w-50 reset">Reset</button>
+        </div>
+    </div>
+</div>
+
 <div class="DIDtable"> </div>
+
 
 
 @section Scripts {
 
     <script>
+          var pageSizelength = 5;
             function getData(){
                  $.get("/DID/GetData",function(data){
                       $(".DIDtable").html(data);
                   })
             }
 
+             function updatePageSize(){
+            pageSizelength = $("#pageSize").val();
+              loadDIDList({pageNumber:0 ,pageSize:pageSizelength});
+        }
+            function loadDIDList(paginationObj) {
+                      console.log("paginationObj",paginationObj);
+                        var pagesize = paginationObj.pageSize || 10;
+
+                        $.ajax({
+                            url: '/DID/GetData',
+                            method: 'Get',
+                            data: {
+                                pageNumber: paginationObj.pageNumber,
+                                pageSize: pagesize
+                            }
+                        }).done(function (data) {
+                            $(".DIDtable").html(data);
+
+                            setTimeout(function () {
+                                loadPagination(paginationObj.pageNumber, pagesize);
+                            }, 0);
+                        });
+                    }
+
+                function loadPagination(pageNumber, pageSize) {
+                       
+                    if ($("#paginate").data('bs_pagination')) {
+                            $("#paginate").bs_pagination('destroy');
+                        }
+                        console.log("inside the loadPagination");
+                    $("#paginate").bs_pagination({
+                        currentPage: pageNumber + 1,
+                        rowsPerPage: parseInt(pageSize),
+                        maxRowsPerPage: pageSize,
+                        totalRows: $('#resultCount').val(),
+                        totalPages: Math.ceil($('#resultCount').val() / parseInt(pageSize)),
+                        showGoToPage: false,
+                        showRowsPerPage: false,
+                        visiblePageLinks: 3,
+                        setRowsInfo: false,
+                        onChangePage: function (event, data) {
+                            pageNumber = data.currentPage - 1;
+                            loadDIDList({ pageNumber: pageNumber, pageSize: pageSize });
+                        }
+                    });
+                }
+
              $(document).ready(function(){
-                 getData();
+                 // getData();
+                 loadDIDList({pageNumber:0 ,pageSize:pageSizelength});
+
+                     $("body").on("click",".search",function(){
+                            var filter = {
+                              DID : $(".searchDID").val().trim(),
+                              City : $(".searchCity").val().trim(),
+                               Country: $(".searchCountry").val(),
+                              }
+
+                          if (filter.DID || filter.City || filter.Country) {
+                                 $.ajax({
+                             url: "/DID/GetData",
+                             method: "GET",
+                             data: filter,
+                             success: function(response) {
+                                    $(".DIDtable").html(response);
+
+                                 },
+                           error: function(xhr, status, error) {
+                                 console.error("Error:", error);
+                                 }
+                             });
+
+                            }else{
+                                    $.toast({
+                                    heading: 'Warning',
+                                    text: 'Please insert Some Values First',
+                                    showHideTransition: 'plain',
+                                    icon: 'warning'
+                                })
+
+                          }
+              })
+
+              $('body').on('click', '.reset', function(){
+               console.log("reset clicked");
+                   $(".searchDID").val("");
+                   $(".searchCity").val("");
+                    $("#ClassId").val("");
+                   $(".searchCountry").val("");
+                     loadDIDList({pageNumber:0 ,pageSize:pageSizelength})
+
+                })
         });
     </script>
 }

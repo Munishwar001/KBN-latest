@@ -2,6 +2,28 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+function getFormJSON(form) {
+    const array = $(form).serializeArray();
+    const obj = { RecordBy: "", Data: [] };
+
+    array.forEach(item => {
+        if (item.name === "RecordBy") {
+            obj.RecordBy = item.value;
+        } else {
+            const match = item.name.match(/Data\[(\d+)\]\.(\w+)/);
+            if (match) {
+                const index = parseInt(match[1]);
+                const key = match[2];
+                if (!obj.Data[index]) obj.Data[index] = {};
+                obj.Data[index][key] = item.value;
+            }
+        }
+    });
+    console.log(obj);
+    return obj;
+}
+
 $(document).ready(function () {
    
     $("body").on("click", "#addDataModel", function () { // For Add Data Form 
@@ -38,28 +60,30 @@ $(document).ready(function () {
     });
 
     $("body").on("input change", "#w3review", function () { // For Getting the Range List 
-        console.log("Textarea changed: ", $(this).val());
+        //console.log("Textarea changed: ", $(this).val());
         let lines = $(this).val().split("\n").filter(l => l.trim() !== "");
 
         let rows = "";
         lines.forEach((val, i) => {
             rows += `
             <tr data-did="${val}">
+                
                 <td>
-                    <input type="hidden" name="[${i}].DID" value="${val}" />
-                    ${val}
-                    <div class="text-danger small error-cell"></div> <!-- inline error -->
-                </td>
-                <td>
-                    <input type="text" name="[${i}].City" class="form-control" value="All" placeholder="Enter city" />
-                </td>
-                <td>
-                    <input type="text" name="[${i}].Country" class="form-control" value="All" placeholder="Enter country" />
-                </td>
-                <td>
-                    <input type="hidden" name="[${i}].NumberType" value="GEOGRAPHICAL" />
-                    Default
-                </td>
+                <input type="hidden" name="Data[${i}].DID" value="${val}" />
+                ${val}
+                <div class="text-danger small error-cell"></div>
+            </td>
+            <td>
+                <input type="text" name="Data[${i}].City" class="form-control" value="All" placeholder="Enter city" />
+            </td>
+            <td>
+                <input type="text" name="Data[${i}].Country" class="form-control" value="All" placeholder="Enter country" />
+            </td>
+            <td>
+                <input type="hidden" name="Data[${i}].NumberType" value="GEOGRAPHICAL" />
+                Default
+            </td>
+        </tr>
             </tr>
             `;
         });
@@ -67,30 +91,54 @@ $(document).ready(function () {
         $("#AddGeneratedDataTable").html(rows);
     });
 
-    
-    $("body").on("click", ".save-btn", function (e) { //For Save the Added Data 
+
+    $("body").on("click", ".save-btn", function (e) { //For Save the Data to DB
         e.preventDefault();
-        const formData = $("#addGeneratedForm").serialize();
 
-        $.post("/DID/Add", formData, function (response) {
-            // Clear old errors
-            $(".error-cell").text("");
+        const formData = getFormJSON("#addGeneratedForm");
 
-            if (response.success) {
-                $("#myModal").modal("hide");
-                getData();
-                $.toast({
-                    heading: 'Success',
-                    text: 'DID(s) added successfully',
-                    showHideTransition: 'slide',
-                    icon: 'success'
+        console.log(formData);
+        $.ajax({
+            url: "/DID/Add",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
+                $(".error-cell").text("");
+
+                if (response.success) {
+                    $("#myModal").modal("hide");
+                    getData();
+                    $.toast({
+                        heading: 'Success',
+                        text: 'DID(s) added successfully',
+                        showHideTransition: 'slide',
+                        icon: 'success'
+                    });
+                }
+
+                //$.each(response.errors, function (did, message) {
+                //    $(`#AddGeneratedDataTable tr[data-did="${did}"] .error-cell`).text(message);
+                //});
+
+                const didsWithErrors = [];
+
+                $.each(response.errors, function (did, message) {
+                    $(`#AddGeneratedDataTable tr[data-did="${did}"] .error-cell`).text(message);
+
+                    didsWithErrors.push(did);
                 });
-            }
 
-            // Show row-wise errors
-            $.each(response.errors, function (did, message) {
-                $(`#AddGeneratedDataTable tr[data-did="${did}"] .error-cell`).text(message);
-            });
+                console.log("DIDs with errors:", didsWithErrors);
+                if (didsWithErrors.length > 0) {
+                    $.toast({
+                        heading: 'Errors',
+                        text: 'Following DIDs have errors: ' + didsWithErrors.join(', '),
+                        showHideTransition: 'slide',
+                        icon: 'error'
+                    });
+                }
+            }
         });
     });
 
@@ -125,6 +173,7 @@ $(document).ready(function () {
         const did = $(this).data("id");
 
         $.get("/DID/update", { did: did }, function (response) {
+
                     $("#myModalLabel").text("Update");
                     $(".modal-body").html(response);
                     $("#myModal").modal("show");
@@ -147,6 +196,14 @@ $(document).ready(function () {
                     showHideTransition: 'slide',
                     icon: 'success'
                 });
+            } else {
+                $.toast({
+                    heading: 'Error',
+                    text: response.errors,
+                    showHideTransition: 'slide',
+                    icon: 'Error'
+                });
+                $("#myModal").modal("hide");
             }
 
         });

@@ -1,6 +1,7 @@
 ﻿@model List<KBN.Models.DIDModel.RangeViewModel>
 @{
     ViewData["Title"] = "Add";
+   
 }
 
 <div class="Addcontainer">
@@ -33,6 +34,7 @@
     <!-- Table Output -->
     <div>
         <form id="addGeneratedForm">
+            
     <div class="card shadow-sm flex-fill ms-4 p-3 table-card">
         <h5 class="fw-bold text-secondary">Output</h5>
         <div class="table-responsive">
@@ -45,35 +47,8 @@
                         <th>Number Type</th>
                     </tr>
                 </thead>
+                  <input type="hidden" value="@ViewBag.currentUser" name="RecordBy" />
                 <tbody id="AddGeneratedDataTable">
-                        @* @if (Model != null && Model.Any())
-                        {
-                            @for (int i = 0; i < Model.Count; i++)
-                            {
-                                <tr>
-                                    <td>
-                                         <input type="hidden" name="[@i].DID" value="@Model[i].DID" />
-                                        @Model[i].DID
-                                    </td>
-                                    <td>
-                                        <input type="text" name="[@i].City" value="@Model[i].City" />
-                                    </td>
-                                    <td>
-                                        <input type="text" name="[@i].Country" value="@Model[i].Country" />
-                                    </td>
-                                    <td>
-                                            <input type="hidden" name="[@i].NumberType" value=" @Model[i].NumberType" />
-                                        @Model[i].NumberType
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="4" class="text-center text-muted">No data available</td>
-                            </tr>
-                        } *@
                     </tbody>
                     
             </table>

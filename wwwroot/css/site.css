@@ -201,3 +201,72 @@ body {
     overflow-y: auto; 
 }
 
+/* Container */
+#paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    /* Pagination list */
+    #paginate ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 5px;
+    }
+
+        #paginate ul li {
+            display: inline-block;
+        }
+
+            #paginate ul li a {
+                display: block;
+                padding: 6px 12px;
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                text-decoration: none;
+                color: #007bff;
+                font-weight: 500;
+                transition: all 0.2s;
+            }
+
+                #paginate ul li a:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+            #paginate ul li.active a {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+                cursor: default;
+            }
+
+            #paginate ul li.disabled a {
+                color: #6c757d;
+                cursor: not-allowed;
+                background-color: #fff;
+                border-color: #dee2e6;
+            }
+
+
+.d-flex.flex-md-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex; /* Ensures a flexbox layout */
+    align-items: center; /* Vertically centers the items */
+    justify-content: center; /* Horizontally centers the items */
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+#rows_info_paginate {
+    font-size: 16px;
+    color: #6c757d; /* A subtle gray color */
+    margin-left: 15px;
+    font-weight: 500;
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+/*    display:none;*/
+}

@@ -3,6 +3,7 @@ using KBN.Models.DIDModel;
 using KBN.RepoHelper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace KBN.Controllers
 {
@@ -20,11 +21,12 @@ namespace KBN.Controllers
             return View();
         }
 
-        public IActionResult GetData() //For Getting All the DID Data
+        public IActionResult GetData(RangeViewModel? filter  = null,int? pageNumber = 0 , int? pageSize = 5 ) //For Getting All the DID Data
         {
             try
             {
-                List<DID_Assigning> data = _DIDHelper.GetData();
+                var data = _DIDHelper.GetData(filter: filter, pageNumber: pageNumber, pageSize: pageSize);
+                 
                 return PartialView(data);
             }
             catch (Exception ex)
@@ -37,20 +39,24 @@ namespace KBN.Controllers
         {
             try
             {
+                string loggedInUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                ViewBag.currentUser = loggedInUserEmail;
                 return PartialView();
             }
-            catch (Exception ex)
+            catch (Exception ex)    
             {
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
-        public IActionResult Add(List<RangeViewModel> data) //For Add Data in DB
+        public IActionResult Add([FromBody] DIDRequest request) //For Add Data in DB
         {
             try
-            {
-                var result = _DIDHelper.AddData(data);
+            {  
+                string RecordBy = request.RecordBy;
+                List<RangeViewModel> data = request.Data;
+                var result = _DIDHelper.AddData(RecordBy ,data);
 
                 return Json(new
                 {

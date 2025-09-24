@@ -8,16 +8,16 @@
     <input type="hidden" name="Id" value="@Model.Id" />
     <div class="mb-3">
         <label for="DID" class="form-label">DID</label>
-        <input type="number" name="DID" value="@Model.DID" class="form-control" />
+        <input type="number" name="DID" value="@Model.DID" class="form-control" required/>
     </div>
     <div class="mb-3">
         <label for="City" class="form-label">City</label>
-        <input type="text" id="City" name="City" class="form-control" placeholder="Enter  your Updated City" value="@Model.City" />
+        <input type="text" id="City" name="City" class="form-control" placeholder="Enter  your Updated City" value="@Model.City" required />
     </div>
 
     <div class="mb-3">
         <label for="Country" class="form-label">Country</label>
-        <input type="text" id="Country" name="Country" class="form-control" placeholder="Enter  your Updated Country" value="@Model.Country" />
+        <input type="text" id="Country" name="Country" class="form-control" placeholder="Enter  your Updated Country" value="@Model.Country" required />
     </div>
 
     @* <div class="mb-3">

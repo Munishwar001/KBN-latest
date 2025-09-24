@@ -1,7 +1,8 @@
-﻿@model List<KBN.Models.DIDModel.DID_Assigning>
+﻿@model KBN.Models.DIDModel.DIDViewModel
 @{
     ViewData["Title"] = "GetData";
 }
+@Html.Hidden("resultCount", Model.TotalCount)
 
 <div class="table-container">
     <table>
@@ -15,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.DIDList)
             {
                 <tr class="getTableRow">
                     <td>@item.DID</td>
@@ -34,9 +35,9 @@
             }
         </tbody>
     </table>
+    
 </div>
-
-
+<div id="paginate"></div>
 
 <style>
     /* Table wrapper */

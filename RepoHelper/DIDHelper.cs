@@ -4,6 +4,7 @@ using KBN.Models.DIDModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Security.Cryptography;
 
 namespace KBN.RepoHelper
@@ -24,22 +25,85 @@ namespace KBN.RepoHelper
             _logger = logger;
         }
 
-        public List<DID_Assigning> GetData()
+        //public DIDViewModel GetData(RangeViewModel? filter = null, int? pageNumber = 0, int? pageSize = 10)
+        //{
+        //    try
+        //    {
+        //        using var connection = new SqlConnection(_connectionString);
+
+        //        // Build the filter conditions
+        //        var sql = @"
+        //    SELECT * 
+        //    FROM DID_Assigning
+        //    WHERE IsVoid = 0
+        //      AND (@Id IS NULL OR Id = @Id)
+        //      AND (@City IS NULL OR City LIKE '%' + @City + '%')
+        //      AND (@Country IS NULL OR Country LIKE '%' + @Country + '%')
+        //    ORDER BY Id
+        //    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+
+        //    SELECT COUNT(*) 
+        //    FROM DID_Assigning
+        //    WHERE IsVoid = 0
+        //      AND (@Id IS NULL OR Id = @Id)
+        //      AND (@City IS NULL OR City LIKE '%' + @City + '%')
+        //      AND (@Country IS NULL OR Country LIKE '%' + @Country + '%');
+        //";
+
+        //        using var multi = connection.QueryMultiple(sql, new
+        //        {
+        //            Id = filter?.Id,
+        //            City = filter?.City,
+        //            Country = filter?.Country,
+        //            Offset = pageNumber.GetValueOrDefault() * pageSize.GetValueOrDefault(),
+        //            PageSize = pageSize ?? 10
+        //        });
+
+        //        var data = multi.Read<DID_Assigning>().ToList();
+        //        var totalCount = multi.ReadFirst<int>();
+
+        //        return new DIDViewModel { DIDList = data, TotalCount = totalCount };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError("Error while fetching DID data: " + ex);
+        //        throw new Exception("Exception while fetching the DID Data", ex);
+        //    }
+        //}
+
+
+        public DIDViewModel GetData(RangeViewModel? filter = null, int? pageNumber = 0, int? pageSize = 10)
         {
             try
             {
                 using var connection = new SqlConnection(_connectionString);
-                var data = connection.GetList<DID_Assigning>("WHERE IsVoid = 0").ToList();
-                return data;
-            }
-            catch (Exception ex)
+
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@DID", filter?.DID);
+                parameters.Add("@City", filter?.City);
+                parameters.Add("@Country", filter?.Country);
+                parameters.Add("@PageNumber", pageNumber ?? 0);
+                parameters.Add("@PageSize", pageSize ?? 10);
+                parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                var data = connection.Query<DID_Assigning>("dbo.GetDIDsData", parameters, commandType: CommandType.StoredProcedure).ToList();
+                int totalCount = parameters.Get<int>("@TotalCount");
+                // Return view model
+                return new DIDViewModel
+                {
+                    DIDList = data,
+                    TotalCount = totalCount
+                };
+
+                }catch (Exception ex)
             {
-                _logger.LogError("Error while fetching the data"+ex);
-                throw new Exception("Exception while fetching the DID Data" ,ex);
+                _logger.LogError("Error while fetching DID data: " + ex);
+                throw new Exception("Exception while fetching the DID Data", ex);
             }
         }
 
-        public (bool Success, Dictionary<long, string> Errors) AddData(List<RangeViewModel> data)
+        public (bool Success, Dictionary<long, string> Errors) AddData(string RecordBy , List<RangeViewModel> data)
         {
             try
             {
@@ -63,24 +127,25 @@ namespace KBN.RepoHelper
                         {
                             if (d.DID.ToString().Length != 11)
                             {
-                                errors[d.DID] = "DID must be 11 digits";
+                                errors[d.DID.Value] = "DID must be 11 digits";
                                 continue;
+                               
                             }
-                            if (existingDIDs.Contains(d.DID))
+                            if (existingDIDs.Contains(d.DID.Value))
                             {
-                                errors[d.DID] = "DID already exists";
+                                errors[d.DID.Value] = "DID already exists";
                                 continue;
                             }
-
+                            d.RecordedBy = RecordBy;
                             validData.Add(d);
                         }
 
                         if (validData.Any())
                         {
                             string sql = @"
-                        INSERT INTO DID_Assigning (DID, City, Country)
-                        VALUES (@DID, @City, @Country);";
-
+                        INSERT INTO DID_Assigning (DID, City, Country ,RecordAt ,RecoredBy)
+                        VALUES (@DID, @City, @Country ,GetDate(),@RecordedBy);";
+                          
                             connection.Execute(sql, validData, transaction);
                             transaction.Commit();
                         }
@@ -102,7 +167,8 @@ namespace KBN.RepoHelper
             {
                 var connection = new SqlConnection(_connectionString);
 
-                string deleteSql = @"DELETE FROM DID_Assigning WHERE DID = @DID";
+                //string deleteSql = @"DELETE FROM DID_Assigning WHERE DID = @DID";
+                string deleteSql = @" UPDATE DID_Assigning SET IsVoid = 1, DeletedOn = GetDate() WHERE DID = @DID";
 
                 int rowAffected = connection.Execute(deleteSql, new { DID = did });
                 return rowAffected>0;
@@ -130,12 +196,18 @@ namespace KBN.RepoHelper
                 throw new Exception("Exception while inserting the DID Data", ex);
             }
         }
+
         public ResultModel updateData(RangeViewModel data)
         {
             try
             {
-                if (data.DID.ToString().Length != 11)
+                if (!data.DID.HasValue)
                 {
+                    return new ResultModel { Success = false, Message = "please insert some value in this" };
+                }
+                if (data.DID.HasValue && data.DID.ToString().Length != 11)
+                {
+                    Console.WriteLine("the length of DID in Update id ", data.DID.ToString().Length!);
                     return new ResultModel { Success = false, Message = "it must be of 11 digits!" };
                 }
 
@@ -153,7 +225,7 @@ namespace KBN.RepoHelper
                         int count = connection.ExecuteScalar<int>(query, new { DID = data.DID, CurrentId = data.Id },transaction);
                         if (count > 0)
                         {
-                            return new ResultModel { Success = false, Message = "it must be of 11 digits!" };
+                            return new ResultModel { Success = false, Message = "DID already present !" };
                         }
                         string updateDIDSql = @"
                                 UPDATE DID_Assigning

@@ -21,3 +21,252 @@ body {
   margin-bottom: 60px;
 }
 
+#sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: #ffffff; /* White sidebar background */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+    padding-top: 2rem;
+    position: fixed;
+    top: 56px; /* below navbar */
+    left: 0;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+    /* Sidebar links */
+    #sidebar .list-group-item {
+        background: transparent;
+        border: none;
+        color: #333; /* default dark text */
+        font-weight: 500;
+        margin: 0.4rem 0;
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+        /* Hover effect */
+        #sidebar .list-group-item:hover {
+            background: #0d6efd; /* Bootstrap blue */
+            color: #ffffff !important; /* white text */
+            transform: translateX(5px);
+        }
+
+        /* Active link */
+        #sidebar .list-group-item.active,
+        #sidebar .list-group-item:focus {
+            background: #0d6efd; /* Blue background */
+            color: #ffffff !important; /* White text */
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+        }
+
+/* Make modal look modern */
+/*.modal-content {
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+}*/
+
+/* Header color */
+/*.modal-header {
+    border-bottom: none;
+}*/
+
+/* Modal body spacing */
+/*.modal-body {
+    padding: 1.5rem;
+    background: #f9f9f9;
+}*/
+
+    /* Form inside modal */
+    /*.modal-body form label {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+    }
+
+    .modal-body .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 0.6rem 0.75rem;
+        margin-bottom: 1rem;
+        box-shadow: none;
+    }*/
+
+    /* Textarea */
+    /*.modal-body textarea {
+        border-radius: 8px;
+        resize: none;
+    }*/
+
+    /* Buttons */
+    /*.modal-body .btn-primary {
+        width: 100%;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+        .modal-body .btn-primary:hover {
+            background: #0b5ed7;
+        }*/
+/* Make modal look modern */
+.modal-content {
+    border-radius: 14px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.modal-header {
+    border-bottom: none;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    padding: 1rem 1.25rem;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+/* Body */
+.modal-body {
+    padding: 1.5rem;
+    background: #fdfdfd;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+    /* Labels */
+    .modal-body form label {
+        font-weight: 500;
+        margin-bottom: 0.35rem;
+        color: #333;
+    }
+
+    /* Inputs */
+    .modal-body .form-control {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 0.6rem 0.75rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .modal-body .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+        }
+
+    /* Textarea */
+    .modal-body textarea {
+        border-radius: 10px;
+        resize: none;
+    }
+
+    /* Buttons */
+    .modal-body .btn-primary {
+        width: 100%;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.75rem;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        transition: background 0.2s;
+    }
+
+        .modal-body .btn-primary:hover {
+            background: linear-gradient(135deg, #0056b3, #004095);
+        }
+
+/* Footer (if added later) */
+.modal-footer {
+    border-top: none;
+    padding: 1rem 1.25rem;
+    background: #f7f7f7;
+}
+.modal-dialog {
+    max-width: 55%; /* modal ka size screen ke 90% tak */
+}
+
+/* Modal body ko fixed height ke saath scrollable banao */
+.modal-body {
+    max-height: 70vh; 
+    overflow-y: auto; 
+}
+
+/* Container */
+#paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    /* Pagination list */
+    #paginate ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 5px;
+    }
+
+        #paginate ul li {
+            display: inline-block;
+        }
+
+            #paginate ul li a {
+                display: block;
+                padding: 6px 12px;
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                text-decoration: none;
+                color: #007bff;
+                font-weight: 500;
+                transition: all 0.2s;
+            }
+
+                #paginate ul li a:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+            #paginate ul li.active a {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+                cursor: default;
+            }
+
+            #paginate ul li.disabled a {
+                color: #6c757d;
+                cursor: not-allowed;
+                background-color: #fff;
+                border-color: #dee2e6;
+            }
+
+
+.d-flex.flex-md-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex; /* Ensures a flexbox layout */
+    align-items: center; /* Vertically centers the items */
+    justify-content: center; /* Horizontally centers the items */
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+#rows_info_paginate {
+    font-size: 16px;
+    color: #6c757d; /* A subtle gray color */
+    margin-left: 15px;
+    font-weight: 500;
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+/*    display:none;*/
+}

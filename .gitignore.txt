@@ -9,6 +9,8 @@
 *.sln.docstates
 
 # Build results
+[Bb]in/
+[Oo]bj/
 [Dd]ebug/
 [Rr]elease/
 x64/
@@ -16,8 +18,6 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
-[Oo]bj/
 [Ll]og/
 
 # Visual Studio cache files
@@ -37,7 +37,7 @@ _NCrunch_*
 *.vspx
 *.sap
 
-# Others
+# Other generated files
 *.dll
 *.exe
 *.pdb
@@ -48,7 +48,7 @@ _NCrunch_*
 *.ldf
 *.ndf
 
-# Node modules (if you use React/Angular with ASP.NET)
+# Node modules (if using React/Angular/Blazor with JS packages)
 node_modules/
 
 # Publish output
@@ -64,3 +64,8 @@ publish/
 *.snupkg
 *.zip
 *.tar.gz
+*.7z
+
+# Rider / JetBrains
+.idea/
+*.sln.iml

@@ -2,6 +2,7 @@ using KBN.Data;
 using KBN.Interfaces;
 using KBN.Models.DBModels;
 using KBN.Models.EmailModels;
+using KBN.RepoHelper;
 using KBN.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
@@ -43,6 +44,7 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
 
+builder.Services.AddScoped<DIDHelper>();
 
 var app = builder.Build();
 

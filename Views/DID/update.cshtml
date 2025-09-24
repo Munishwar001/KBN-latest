@@ -1,0 +1,40 @@
+﻿@model KBN.Models.DIDModel.RangeViewModel
+
+@{
+    ViewData["Title"] = "update";
+}
+
+<form class="p-3 border rounded shadow-sm bg-light" id="updateDIDData">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label for="DID" class="form-label">DID</label>
+        <input type="number" name="DID" value="@Model.DID" class="form-control" required/>
+    </div>
+    <div class="mb-3">
+        <label for="City" class="form-label">City</label>
+        <input type="text" id="City" name="City" class="form-control" placeholder="Enter  your Updated City" value="@Model.City" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Country" class="form-label">Country</label>
+        <input type="text" id="Country" name="Country" class="form-control" placeholder="Enter  your Updated Country" value="@Model.Country" required />
+    </div>
+
+    @* <div class="mb-3">
+        <label for="Grade" class="form-label">Subject</label>
+           
+    </div> *@
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<style>
+    #updateDIDData input:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+        border-color: #0d6efd;
+    }
+
+    #updateDIDData button:hover {
+        background-color: #0b5ed7;
+    }
+</style>

@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KBN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bad46894b73ab26126648aec00c722f4d542e8d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40dcaf4da7991ed7eff2144edc6ffc65c2101af4")]
 [assembly: System.Reflection.AssemblyProductAttribute("KBN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KBN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

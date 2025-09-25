@@ -23,3 +23,6 @@ obj/
 /obj/Debug/net8.0/KBN.AssemblyInfo.cs
 /obj/Debug/net8.0/KBN.AssemblyInfoInputs.cache
 /obj/Debug/net8.0/rpswa.dswa.cache.json
+# Ignore build output
+bin/
+obj/

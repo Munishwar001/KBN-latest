@@ -69,3 +69,6 @@ publish/
 # Rider / JetBrains
 .idea/
 *.sln.iml
+# Ignore build output
+bin/
+obj/

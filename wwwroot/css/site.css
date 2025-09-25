@@ -270,3 +270,112 @@ body {
     white-space: nowrap; /* Prevents the text from wrapping to the next line */
 /*    display:none;*/
 }
+
+.subscriberContainer {
+    display: flex;
+    justify-content: flex-end; /* button right side */
+    padding: 12px 18px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+    .subscriberContainer .add .addSubModel {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 14px;
+        border-radius: 6px;
+        background-color: #dc3545; /* Bootstrap danger */
+        color: #fff;
+        border: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .subscriberContainer .add .addSubModel:hover {
+            background-color: #bb2d3b; /* darker shade */
+            transform: scale(1.05);
+        }
+
+.subFilter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+    .subFilter .search {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+        .subFilter .search input.form-control {
+            width: 180px;
+            padding: 6px 10px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+            .subFilter .search input.form-control:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+                outline: none;
+            }
+
+        .subFilter .search button {
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subFilter .search .searchSubBtn {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+
+            .subFilter .search .searchSubBtn:hover {
+                background-color: #0b5ed7;
+                transform: scale(1.05);
+            }
+
+        .subFilter .search .resetSubBtn {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+            .subFilter .search .resetSubBtn:hover {
+                background-color: #5c636a;
+                transform: scale(1.05);
+            }
+
+    /* Page size dropdown styling */
+    .subFilter .pageSize select.form-select {
+        width: 80px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+        .subFilter .pageSize select.form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+            outline: none;
+        }

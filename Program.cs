@@ -44,7 +44,8 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
 
-builder.Services.AddScoped<DIDHelper>();
+builder.Services.AddTransient<DIDHelper>();
+builder.Services.AddTransient<SubscriberHelper>();
 
 var app = builder.Build();
 

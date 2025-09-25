@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Index Subscriber";
+}
+
+<p>Customer Table</p>
+<div class="subscriberContainer">
+    <div class="add">
+        <button class="addSubModel btn btn-danger" > <i class="fa-solid fa-plus me-1"></i>Add</button>
+    </div>
+</div>
+
+<div class="subFilter">
+    <div class="search">
+        <input type="text" id="searchCustomer" name="customer_name" class="form-control" placeholder="Search Customer name" value="" />
+        <input type="text" id="searchUsername" name="username" class="form-control" placeholder="Search  username" value="" />
+        <button class="searchSubBtn">Search</button>
+        <button class="resetSubBtn">Reset</button>
+
+    </div>
+    <div class="pageSize">
+        <select name="pageSize" id="pageSizeSub" class="form-select form-select-sm" onchange="updatePageSize()">
+            <option value="5" selected>5</option>
+            <option value="10" >10</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+</div>
+
+<div class="subscribertable">
+
+</div> 
+
+
+@section Scripts{
+    <script>
+             let pageSizelength = 5;
+             function getSubData(){
+                     $.get("/Subscriber/GetData",function(data){
+                          $(".subscribertable").html(data);
+                      })
+             }
+
+            function updatePageSize(){
+                pageSizelength = $("#pageSizeSub").val();
+                loadSubscriberList({pageNumber:0 ,pageSize:pageSizelength});
+               }
+
+             function loadSubscriberList(paginationObj) {
+                      console.log("paginationObj",paginationObj);
+                        var pagesize = paginationObj.pageSize || 10;
+
+                        $.ajax({
+                            url: '/Subscriber/GetData',
+                            method: 'Get',
+                            data: {
+                                pageNumber: paginationObj.pageNumber,
+                                pageSize: pagesize
+                            }
+                        }).done(function (data) {
+                            $(".subscribertable").html(data);
+
+                            setTimeout(function () {
+                                loadPagination(paginationObj.pageNumber, pagesize);
+                            }, 0);
+                        });
+                    }
+
+                function loadPagination(pageNumber, pageSize) {
+
+                    if ($("#paginate").data('bs_pagination')) {
+                            $("#paginate").bs_pagination('destroy');
+                        }
+                        console.log("inside the loadPagination");
+                    $("#paginate").bs_pagination({
+                        currentPage: pageNumber + 1,
+                        rowsPerPage: parseInt(pageSize),
+                        maxRowsPerPage: pageSize,
+                        totalRows: $('#resultCount').val(),
+                        totalPages: Math.ceil($('#resultCount').val() / parseInt(pageSize)),
+                        showGoToPage: false,
+                        showRowsPerPage: false,
+                        visiblePageLinks: 3,
+                        setRowsInfo: false,
+                        onChangePage: function (event, data) {
+                            pageNumber = data.currentPage - 1;
+                            loadSubscriberList({ pageNumber: pageNumber, pageSize: pageSize });
+                        }
+                    });
+                }
+        
+        $(document).ready(function(){
+           // getSubData();
+           loadSubscriberList({pageNumber:0 ,pageSize:pageSizelength});
+        })
+    </script>
+}

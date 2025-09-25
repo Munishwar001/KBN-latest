@@ -25,53 +25,6 @@ namespace KBN.RepoHelper
             _logger = logger;
         }
 
-        //public DIDViewModel GetData(RangeViewModel? filter = null, int? pageNumber = 0, int? pageSize = 10)
-        //{
-        //    try
-        //    {
-        //        using var connection = new SqlConnection(_connectionString);
-
-        //        // Build the filter conditions
-        //        var sql = @"
-        //    SELECT * 
-        //    FROM DID_Assigning
-        //    WHERE IsVoid = 0
-        //      AND (@Id IS NULL OR Id = @Id)
-        //      AND (@City IS NULL OR City LIKE '%' + @City + '%')
-        //      AND (@Country IS NULL OR Country LIKE '%' + @Country + '%')
-        //    ORDER BY Id
-        //    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
-
-        //    SELECT COUNT(*) 
-        //    FROM DID_Assigning
-        //    WHERE IsVoid = 0
-        //      AND (@Id IS NULL OR Id = @Id)
-        //      AND (@City IS NULL OR City LIKE '%' + @City + '%')
-        //      AND (@Country IS NULL OR Country LIKE '%' + @Country + '%');
-        //";
-
-        //        using var multi = connection.QueryMultiple(sql, new
-        //        {
-        //            Id = filter?.Id,
-        //            City = filter?.City,
-        //            Country = filter?.Country,
-        //            Offset = pageNumber.GetValueOrDefault() * pageSize.GetValueOrDefault(),
-        //            PageSize = pageSize ?? 10
-        //        });
-
-        //        var data = multi.Read<DID_Assigning>().ToList();
-        //        var totalCount = multi.ReadFirst<int>();
-
-        //        return new DIDViewModel { DIDList = data, TotalCount = totalCount };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError("Error while fetching DID data: " + ex);
-        //        throw new Exception("Exception while fetching the DID Data", ex);
-        //    }
-        //}
-
-
         public DIDViewModel GetData(RangeViewModel? filter = null, int? pageNumber = 0, int? pageSize = 10)
         {
             try

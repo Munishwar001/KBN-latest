@@ -180,7 +180,7 @@ $(document).ready(function () {
                 });
     });
 
-    $(document).on("submit", "#updateDIDData", function (e) {
+               $(document).on("submit", "#updateDIDData", function (e) {
         console.log("submit event triggered");
         e.preventDefault();
         const formData = $(this).serialize();
@@ -208,4 +208,17 @@ $(document).ready(function () {
 
         });
     })
+    
+    $(document).on("click", "#togglePassword", function () {
+        var inputType = $("#password").attr("type");
+        if (inputType === "password") {
+            $("#password").attr("type", "text");
+            $(this).attr("class", "fa-solid fa-eye-slash");
+            
+        } else {
+            $("#password").attr("type", "password");
+            $(this).attr("class", "fa fa-eye");
+        }
+    })
 });
+

@@ -1,0 +1,65 @@
+﻿@model KBN.Models.SubscriberModels.Subscriber;
+@{
+    ViewData["Title"] = "Update subscriber";
+}
+
+<form class="p-3 border rounded shadow-sm bg-light" id="updateSubscriberData">
+    <input type="hidden" name="Id" value="@Model.id" />
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" value="@Model.username" class="form-control"  placeholder="Enter the Username" required />
+        <span class="error" id="usernameError" style="color:red"></span>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="passwordContainer">
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" value="@Model.password" required />
+        <i id="togglePassword" class="fa fa-eye"></i>
+        </div>
+        <span class="error" id="passwordError" style="color:red"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="customer_name" class="form-label">Customer Name</label>
+        <input type="text" id="customerName" name="customer_name" class="form-control" placeholder="Enter Customer name" value="@Model.customer_name" />
+        <span class="error" id="customer_nameError" style="color:red"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<style>
+    #updateSubscriberData input:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+        border-color: #0d6efd;
+    }
+
+    #updateSubscriberData button:hover {
+        background-color: #0b5ed7;
+    }
+
+    .passwordContainer {
+        position: relative; /* For absolute positioning the eye icon */
+        width: 100%; /* Make container full width */
+        max-width: 400px; /* Optional: limit width */
+    }
+
+        .passwordContainer input {
+            width: 100%;
+            padding-right: 2.5rem; /* space for the eye icon */
+            box-sizing: border-box;
+        }
+
+        .passwordContainer #togglePassword {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem; /* distance from the right edge */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+</style>
+
+

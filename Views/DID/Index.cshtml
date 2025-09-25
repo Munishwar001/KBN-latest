@@ -55,7 +55,8 @@
              function updatePageSize(){
             pageSizelength = $("#pageSize").val();
               loadDIDList({pageNumber:0 ,pageSize:pageSizelength});
-        }
+               }
+
             function loadDIDList(paginationObj) {
                       console.log("paginationObj",paginationObj);
                         var pagesize = paginationObj.pageSize || 10;

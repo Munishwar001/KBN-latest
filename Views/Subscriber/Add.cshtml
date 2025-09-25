@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "AddSubscriber";
+}
+
+<form class="p-3 border rounded shadow-sm bg-light" id="addSubscriberData">
+    @* <input type="hidden" name="Id" value="@Model.Id" /> *@
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" value="" class="form-control" required placeholder="Enter the Username" required/>
+        <span class="error" id="usernameError" style="color:red"></span>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" value="" required />
+        <span class="error" id="passwordError" style="color:red"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="customer_name" class="form-label">Customer Name</label>
+        <input type="text" id="customerName" name="customer_name" class="form-control" placeholder="Enter Customer name" value=""  />
+        <span class="error" id="customer_nameError" style="color:red"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<style>
+    #addSubscriberData input:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+        border-color: #0d6efd;
+    }
+
+    #addSubscriberData button:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
+

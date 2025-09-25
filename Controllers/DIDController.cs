@@ -1,12 +1,14 @@
 ﻿using Humanizer;
 using KBN.Models.DIDModel;
 using KBN.RepoHelper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace KBN.Controllers
 {
+    [Authorize]
     public class DIDController : Controller
     {    
 

@@ -20,3 +20,6 @@ obj/
 # JSON files (except appsettings.json if you want to track it)
 *.json
 !appsettings.json
+/obj/Debug/net8.0/KBN.AssemblyInfo.cs
+/obj/Debug/net8.0/KBN.AssemblyInfoInputs.cache
+/obj/Debug/net8.0/rpswa.dswa.cache.json
